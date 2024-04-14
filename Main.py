@@ -1,13 +1,121 @@
+
+
 class WordleSolver():
     def __init__(self) -> None:
-        with open("NewWordleSolver/Answers.txt","r",encoding="utf-8") as f:
+        with open("Answers.txt","r",encoding="utf-8") as f:
             self.words = f.read().split("\n")
-        self.previousGuesses = {}
+        self.previousGuesses = []
+        self.prevguessresults = []
         self.invalidLetters = []
-        self.yellowLetters = {}
+        self.yellowLetters = [[],[],[],[],[]]
+        self.correctletters=[[],[],[],[],[]]
         self.validWordsfirst = []
+        self.uniqueyellowletters = []
+        self.firstwordvalues =[]
     def findValid(self):
-        self.validWordsfirst = []
+        validWords = []
         for i, word in enumerate(self.words):
-            for letter in word:
-                if 
+            invalid = False
+            for j,letter in enumerate(word):
+                if letter in self.invalidLetters:
+                    invalid = True
+                    break
+                if letter in self.yellowLetters[j]:
+                    invalid = True
+                    break
+                if len(self.correctletters[j])>=1:
+                    if letter!=self.correctletters[j][0]:
+                        invalid = True
+                        break
+            self.alluniqueyellowlettersfinder()
+            if len(self.uniqueyellowletters)>0:
+                for k in self.uniqueyellowletters:
+                    if not k in word:
+                        invalid = True
+                        break
+            if not invalid:
+                validWords+=[i]
+        return validWords
+    def alluniqueyellowlettersfinder(self):
+        self.uniqueyellowletters = []
+        for i in self.yellowLetters:
+            for j in i:
+                if not j in self.uniqueyellowletters:
+                    self.uniqueyellowletters += [j]
+    def findpercentagevalue(self,word,validwords):
+        countincludes = 0
+        lettervalstotal = 0
+        for j in word:
+            countincludes = 0
+            for i in validwords:
+                if j in self.words[i]:
+                    countincludes+=1
+                    break
+            lettervalstotal += countincludes
+        return lettervalstotal
+    def FirstLayer(self):
+        self.firstwordvalues = []
+        self.validWordsfirst = self.findValid()
+        for i in self.validWordsfirst:
+            self.firstwordvalues+=[self.findpercentagevalue(self.words[i],self.validWordsfirst)]
+        self.firstsort()
+        print(self.validWordsfirst)
+        print(self.words[self.validWordsfirst[0]],":",self.firstwordvalues[0])
+    def SecondLayer(self):
+        # Working on
+        print("a")
+    def firstsort(self):
+        ln = len(self.firstwordvalues)
+        sortedd = False
+        while not sortedd:
+            sortedd = True
+            for i in range(0,ln-1):
+                if self.firstwordvalues[i]>self.firstwordvalues[i+1]:
+                    sortedd = False
+                    _ = self.firstwordvalues[i]
+                    self.firstwordvalues[i] =self.firstwordvalues[i+1]
+                    self.firstwordvalues[i+1]=_
+                    _ = self.validWordsfirst[i]
+                    self.validWordsfirst[i] =self.validWordsfirst[i+1]
+                    self.validWordsfirst[i+1]=_
+
+            ln-=1
+    def input(self):
+        print("Your guess then he results in the format:\nslate\ncwyww")
+        word = input()
+        colours = input()
+        self.previousGuesses+=[word]
+        self.prevguessresults+=[colours]
+        for i,letter in enumerate(colours):
+            if letter == "y":
+                self.yellowLetters[i]+=[word[i]]
+            if letter == "w":
+                alreadyUsed = False
+                for j in range(0,i):
+                    if word[j]==word[i]:
+                        alreadyUsed = True
+                if i<5:
+                    for j in range(i+1,5):
+                        if word[j]==word[i]:
+                            alreadyUsed = True
+                if not alreadyUsed:
+                    self.invalidLetters+=[word[i]]
+                else:
+                    self.yellowLetters[i]+=[word[i]]
+            if letter == "c":
+                self.correctletters[i]+=[word[i]]
+    def main(self):
+        while True:
+            self.FirstLayer()
+            self.input()
+    def test(self):
+        self.invalidLetters = ["s","t"]
+        self.correctletters = [[],["l"],[],[],["e"]]
+        self.yellowLetters = [[],[],["a"],[],[]]
+        validwords = []
+        for i in self.findValid():
+            validwords+=[self.words[i]]
+        print(validwords)
+
+WS = WordleSolver()
+WS.main()
