@@ -1,6 +1,9 @@
 
-
 class WordleSolver():
+    """A wordle solver that uses a list of words to find the best possible word to guess in the game wordle.
+    
+    Use main() to start the program.
+    """
     def __init__(self) -> None:
         with open("Answers.txt","r",encoding="utf-8") as f:
             self.words = f.read().split("\n")
@@ -9,10 +12,14 @@ class WordleSolver():
         self.invalidLetters = []
         self.yellowLetters = [[],[],[],[],[]]
         self.correctletters=[[],[],[],[],[]]
-        self.validWordsfirst = []
+        self.validWordsFirst = []
         self.uniqueyellowletters = []
         self.firstwordvalues =[]
     def findValid(self):
+        """Finds all words that are valid guesses with all the information given.
+        
+        Sets self.validWordsFirst to the indexes of the valid words.
+        """
         validWords = []
         for i, word in enumerate(self.words):
             invalid = False

@@ -1,0 +1,2 @@
+2. Install the required dependencies: `npm install`
+3. Run the solver: `node solver.js`
