@@ -44,10 +44,14 @@ class WordleSolver():
                     self.uniqueyellowletters += [j]
     def findpercentagevalue(self,word,validwords):
         lettervalstotal = 0
+        lettersdone = []
         for j in word:
             for i in validwords:
+                if j in lettersdone:
+                    break
                 if j in self.words[i]:
                     lettervalstotal+=1
+            lettersdone+=[j]
         return lettervalstotal
     def FirstLayer(self):
         self.firstwordvalues = []
@@ -55,14 +59,14 @@ class WordleSolver():
         for i in self.validWordsfirst:
             self.firstwordvalues+=[self.findpercentagevalue(self.words[i],self.validWordsfirst)]
         self.firstsort()
-        print(self.validWordsfirst)
+        # print(self.validWordsfirst)
         print(self.words[self.validWordsfirst[0]],":",self.firstwordvalues[0])
     def SecondLayer(self):
         # Working on
         print("a")
     def firstsort(self):
         ln = len(self.firstwordvalues)
-        print(self.firstwordvalues)
+        # print(self.firstwordvalues)
         sortedd = False
         while not sortedd:
             sortedd = True
