@@ -52,12 +52,15 @@ class WordleSolver():
     def findpercentagevalue(self,word,validwords):
         lettervalstotal = 0
         lettersdone = []
-        for j in word:
+        for l,j in enumerate(word):
             for i in validwords:
                 if j in lettersdone:
                     break
                 if j in self.words[i]:
-                    lettervalstotal+=1
+                    if self.words[i][l]==j:
+                        lettervalstotal+=1.2
+                    else:
+                        lettervalstotal+=1
             lettersdone+=[j]
         return lettervalstotal
     def FirstLayer(self):
