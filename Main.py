@@ -129,11 +129,13 @@ class WordleSolver():
     def wordle(self,starter,end):
         count = 1
         self.outsideinput(starter,end)
+        
         self.firstwordvalues = []
         self.validWordsfirst = self.findValid()
         for i in self.validWordsfirst:
             self.firstwordvalues+=[self.findPercentageValue(self.words[i],self.validWordsfirst)]
         self.firstSort()
+        
     def outsideinput(self,word,endingWord):
         colour = self.colourfinder(word,endingWord)
         self.previousGuesses+=[word]
