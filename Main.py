@@ -126,15 +126,23 @@ class WordleSolver():
             for j in self.words:
                 SingleTotal+=self.wordle(i,j)
             StarterScores+=[SingleTotal]
+        print(StarterScores)
     def wordle(self,starter,end):
         count = 1
         self.outsideinput(starter,end)
-        
-        self.firstwordvalues = []
-        self.validWordsfirst = self.findValid()
-        for i in self.validWordsfirst:
-            self.firstwordvalues+=[self.findPercentageValue(self.words[i],self.validWordsfirst)]
-        self.firstSort()
+        correct = False
+        while not correct:
+            self.firstwordvalues = []
+            self.validWordsfirst = self.findValid()
+            for i in self.validWordsfirst:
+                self.firstwordvalues+=[self.findPercentageValue(self.words[i],self.validWordsfirst)]
+            self.firstSort()
+            self.outsideinput(self.words[self.firstwordvalues[0]],end)
+            count+=1
+            if self.words[self.firstwordvalues[0]]==end:
+                correct = True
+            self.reset()
+        return count
         
     def outsideinput(self,word,endingWord):
         colour = self.colourfinder(word,endingWord)
@@ -189,4 +197,4 @@ class WordleSolver():
         self.firstwordvalues =[]
 
 WS = WordleSolver()
-WS.main()
+WS.test()
