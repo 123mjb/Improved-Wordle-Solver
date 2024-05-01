@@ -139,18 +139,13 @@ class WordleSolver():
             for i in self.validWordsfirst:
                 self.firstwordvalues+=[self.findPercentageValue(self.words[i],self.validWordsfirst)]
             self.firstSort()
-            try:
-                self.outsideinput(self.words[self.validWordsfirst[0]],end)
-            except:
-                print(self.validWordsfirst)
-                sys.exit(str(IndexError))
+            if len(self.validWordsfirst)==0:
+                return 40
+            if self.words[self.validWordsFirst[0]]==end:
+                correct = True
+            self.outsideinput(self.words[self.validWordsfirst[0]],end)
             count+=1
-            try:
-                if self.words[self.firstwordvalues[0]]==end:
-                    correct = True
-            except:
-                print(self.validWordsfirst)
-                sys.exit(str(IndexError))
+            print(self.validWordsFirst)
             
             self.reset()
         return count
