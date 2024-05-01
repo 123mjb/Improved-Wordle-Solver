@@ -1,4 +1,6 @@
 
+import sys
+
 class WordleSolver():
     """A wordle solver that uses a list of words to find the best possible word to guess in the game wordle.
     
@@ -137,10 +139,19 @@ class WordleSolver():
             for i in self.validWordsfirst:
                 self.firstwordvalues+=[self.findPercentageValue(self.words[i],self.validWordsfirst)]
             self.firstSort()
-            self.outsideinput(self.words[self.firstwordvalues[0]],end)
+            try:
+                self.outsideinput(self.words[self.validWordsfirst[0]],end)
+            except:
+                print(self.validWordsfirst)
+                sys.exit(str(IndexError))
             count+=1
-            if self.words[self.firstwordvalues[0]]==end:
-                correct = True
+            try:
+                if self.words[self.firstwordvalues[0]]==end:
+                    correct = True
+            except:
+                print(self.validWordsfirst)
+                sys.exit(str(IndexError))
+            
             self.reset()
         return count
         
