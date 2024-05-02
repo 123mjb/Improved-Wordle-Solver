@@ -1,6 +1,4 @@
 
-import sys
-
 class WordleSolver():
     """A wordle solver that uses a list of words to find the best possible word to guess in the game wordle.
     
@@ -72,7 +70,7 @@ class WordleSolver():
             self.firstwordvalues+=[self.findPercentageValue(self.words[i],self.validWordsfirst)]
         self.firstSort()
         # print(self.validWordsfirst)
-        print(self.words[self.validWordsfirst[0]],":",self.firstwordvalues[0])
+        return self.words[self.validWordsfirst[0]]
     def secondLayer(self):
         # Working on
         print("a")
@@ -93,10 +91,11 @@ class WordleSolver():
                     self.validWordsfirst[i+1]=_
 
             ln-=1
-    def input(self):
-        print("Your guess then he results in the format:\nslate\ncwyww")
-        word = input()
-        colours = input()
+    def input(self,*args):
+        print("Your guess then the results in the format:\nslate\ncwyww")
+        if not args:
+            word = input()
+            colours = input()
         self.previousGuesses+=[word]
         self.prevguessresults+=[colours]
         for i,letter in enumerate(colours):
@@ -121,86 +120,4 @@ class WordleSolver():
         while True:
             self.firstLayer()
             self.input()
-    def test(self):
-        StarterScores = []
-        for i in self.words:
-            SingleTotal = 0
-            for j in self.words:
-                SingleTotal+=self.wordle(i,j)
-            StarterScores+=[SingleTotal]
-        print(StarterScores)
-    def wordle(self,starter,end):
-        count = 1
-        self.outsideinput(starter,end)
-        correct = False
-        while not correct:
-            self.firstwordvalues = []
-            self.validWordsfirst = self.findValid()
-            for i in self.validWordsfirst:
-                self.firstwordvalues+=[self.findPercentageValue(self.words[i],self.validWordsfirst)]
-            self.firstSort()
-            if len(self.validWordsfirst)==0:
-                return 40
-            if self.words[self.validWordsFirst[0]]==end:
-                correct = True
-            self.outsideinput(self.words[self.validWordsfirst[0]],end)
-            count+=1
-            print(self.validWordsFirst)
-            
-            self.reset()
-        return count
-        
-    def outsideinput(self,word,endingWord):
-        colour = self.colourfinder(word,endingWord)
-        self.previousGuesses+=[word]
-        self.prevguessresults+=[colour]
-        for i,letter in enumerate(colour):
-            if letter == "y":
-                self.yellowLetters[i]+=[word[i]]
-            if letter == "w":
-                alreadyUsed = False
-                for j in range(0,i):
-                    if word[j]==word[i]:
-                        alreadyUsed = True
-                if i<5:
-                    for j in range(i+1,5):
-                        if word[j]==word[i]:
-                            alreadyUsed = True
-                if not alreadyUsed:
-                    self.invalidLetters+=[word[i]]
-                else:
-                    self.yellowLetters[i]+=[word[i]]
-            if letter == "c":
-                self.correctletters[i]+=[word[i]]
-    def colourfinder(self,word,endingWord):
-        colour = ""
-        for i in range(0,5):
-            if word[i]==endingWord[i]:
-                colour+="c"
-            elif not word[i] in endingWord:
-                colour+="w"
-            else:
-                numinend = 0
-                numinguess = 0
-                for j in range(0,i):
-                    if word[j]==word[i]:
-                        numinguess+=1
-                    if endingWord[j]==word[i]:
-                        numinend+=1
-                if numinend>numinguess:
-                    colour+="y"
-                else:
-                    colour+="w"
-        return colour
-    def reset(self):
-        self.previousGuesses = []
-        self.prevguessresults = []
-        self.invalidLetters = []
-        self.yellowLetters = [[],[],[],[],[]]
-        self.correctletters=[[],[],[],[],[]]
-        self.validWordsFirst = []
-        self.uniqueyellowletters = []
-        self.firstwordvalues =[]
 
-WS = WordleSolver()
-WS.test()
