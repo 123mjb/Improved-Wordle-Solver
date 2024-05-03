@@ -96,6 +96,9 @@ class WordleSolver():
         if not args:
             word = input()
             colours = input()
+        else:
+            word = args[0]
+            colours = args[1]
         self.previousGuesses+=[word]
         self.prevguessresults+=[colours]
         for i,letter in enumerate(colours):
