@@ -1,6 +1,8 @@
 import numpy as np
-from scipy.special import expit as activation_function
-from scipy.stats import truncnorm
+import matplotlib.pyplot as plt
+import h5py
+import scipy
+from PIL import Image
+from scipy import ndimage
 
-
-def 
+%matplotlib inline
